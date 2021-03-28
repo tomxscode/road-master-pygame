@@ -1,29 +1,31 @@
-# importar libreria
 import pygame
-# inicializando pygame
+
 pygame.init()
+screen = pygame.display.set_mode((800, 600))
+done = False
+is_blue = True
+x = 30
+y = 30
 
-# configuración de la ventana
-screen = pygame.display.set_mode([800, 600])
+clock = pygame.time.Clock()
 
-# variables importantes
-# running = si es true el juego esta corriendo, si no se cierra
-running = True
-#backgroundImage = ruta del fondo
-backgroundImage = pygame.image.load('imgs/bg.png').convert()
-
-# mientras running es verdadero el juego se muestra
-while running:
-  # busca constantemente los eventos (pygame.event)
+while not done:
   for event in pygame.event.get():
-    # el tipo de evento: QUIT, cuando se apriete la X
     if event.type == pygame.QUIT:
-      running = False
-      print(f'Running value: {running}')
-  # fondo (en colores) de la pantalla
-  #screen.fill((190, 193, 54))
-  # fondo imagen
-  screen.blit(backgroundImage, [0, 0])
-
-  # actualiza la 'screen'
+      done = True
+    if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+      is_blue = not is_blue
+        
+  pressed = pygame.key.get_pressed()
+  if pressed[pygame.K_UP]: y -= 12
+  if pressed[pygame.K_DOWN]: y += 12
+  if pressed[pygame.K_LEFT]: x -= 12
+  if pressed[pygame.K_RIGHT]: x += 12
+      
+  screen.fill((0, 0, 0))
+  if is_blue: color = (0, 128, 255)
+  else: color = (255, 100, 0)
+  pygame.draw.rect(screen, color, pygame.Rect(x, y, 60, 60))
+  
   pygame.display.flip()
+  clock.tick(60)
